@@ -5,8 +5,10 @@ import 'controllers/budget_controller.dart';
 import 'controllers/summary_controller.dart';
 import 'controllers/report_controller.dart';
 import 'controllers/transaction_controller.dart';
+import 'controllers/theme_controller.dart';
 import 'views/auth/login_screen.dart';
 import 'views/dashboard/dashboard_screen.dart';
+import 'core/theme.dart';
 
 class PatunganApp extends StatelessWidget {
   const PatunganApp({super.key});
@@ -20,16 +22,19 @@ class PatunganApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SummaryController()),
         ChangeNotifierProvider(create: (_) => ReportController()),
         ChangeNotifierProvider(create: (_) => TransactionController()),
+        ChangeNotifierProvider(create: (_) => ThemeController()),
       ],
-      child: MaterialApp(
-        title: 'Patungan',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-          useMaterial3: true,
-        ),
-        home: const _AuthGate(),
-      ),
+      child: Builder(builder: (context) {
+        final mode = context.watch<ThemeController>().mode;
+        return MaterialApp(
+          title: 'Patungan',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.light(),
+          darkTheme: AppTheme.dark(),
+          themeMode: mode,
+          home: const _AuthGate(),
+        );
+      }),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/budget_controller.dart';
 import '../../core/utils/currency_formatter.dart';
+import '../../core/theme.dart';
 
 class BudgetScreen extends StatefulWidget {
   final int userId;
@@ -31,15 +32,15 @@ class _BudgetScreenState extends State<BudgetScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Budget'),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
         actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _load)],
       ),
       body: ctrl.isLoading
           ? const Center(child: CircularProgressIndicator())
-          : ctrl.error != null
-              ? Center(child: Text(ctrl.error!, style: const TextStyle(color: Colors.red)))
+            : ctrl.error != null
+              ? Center(child: Text(ctrl.error!, style: TextStyle(color: context.appDanger)))
               : RefreshIndicator(
                   onRefresh: () async => _load(),
                   child: ListView(
@@ -80,7 +81,7 @@ class _SectionHeader extends StatelessWidget {
       style: Theme.of(context)
           .textTheme
           .titleMedium
-          ?.copyWith(fontWeight: FontWeight.bold, color: Colors.indigo),
+          ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
     );
   }
 }
@@ -98,11 +99,11 @@ class _OverviewCard extends StatelessWidget {
         child: Column(
           children: [
             _Row('Starting Balance', CurrencyFormatter.format(overview.startingBalance)),
-            _Row('Total Income', CurrencyFormatter.format(overview.totalIncome), color: Colors.green),
-            _Row('Total Expense', CurrencyFormatter.format(overview.totalExpense), color: Colors.red),
+            _Row('Total Income', CurrencyFormatter.format(overview.totalIncome), color: context.appSuccess),
+            _Row('Total Expense', CurrencyFormatter.format(overview.totalExpense), color: context.appDanger),
             const Divider(),
             _Row('Current Balance', CurrencyFormatter.format(overview.currentBalance),
-              color: Colors.indigo, bold: true),
+              color: Theme.of(context).colorScheme.primary, bold: true),
           ],
         ),
       ),
@@ -149,10 +150,10 @@ class _CategoryTile extends StatelessWidget {
     return Card(
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: (isIncome ? Colors.green : Colors.red).withAlpha(25),
+          backgroundColor: (isIncome ? context.appSuccess : context.appDanger).withAlpha(25),
           child: Icon(
             isIncome ? Icons.arrow_downward : Icons.arrow_upward,
-            color: isIncome ? Colors.green : Colors.red,
+            color: isIncome ? context.appSuccess : context.appDanger,
             size: 18,
           ),
         ),
@@ -162,7 +163,7 @@ class _CategoryTile extends StatelessWidget {
           CurrencyFormatter.formatCompact(type.totalAmount),
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: isIncome ? Colors.green : Colors.red,
+            color: isIncome ? context.appSuccess : context.appDanger,
           ),
         ),
       ),
@@ -182,7 +183,7 @@ class _CarryoverCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _Row('Total Carried Over', CurrencyFormatter.format(history.totalCarriedOver), color: Colors.orange),
+            _Row('Total Carried Over', CurrencyFormatter.format(history.totalCarriedOver), color: context.appWarning),
             _Row('Average Carryover', CurrencyFormatter.format(history.averageCarryover)),
           ],
         ),

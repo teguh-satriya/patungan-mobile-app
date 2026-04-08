@@ -5,6 +5,8 @@ import '../../controllers/budget_controller.dart';
 import '../../controllers/transaction_controller.dart';
 import '../../core/utils/token_storage.dart';
 import '../../core/utils/currency_formatter.dart';
+import '../../core/theme.dart';
+import '../../controllers/theme_controller.dart';
 import '../budget/budget_screen.dart';
 import '../transaction/transaction_list_screen.dart';
 import '../report/report_screen.dart';
@@ -83,9 +85,13 @@ class _HomeTab extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Patungan', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
         actions: [
+          IconButton(
+            icon: Icon(context.read<ThemeController>().mode == ThemeMode.dark ? Icons.light_mode : Icons.dark_mode),
+            onPressed: () => context.read<ThemeController>().toggle(),
+          ),
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () => _confirmLogout(context, auth),
@@ -113,10 +119,10 @@ class _HomeTab extends StatelessWidget {
                   const SizedBox(height: 16),
                   if (budget.error != null)
                     Card(
-                      color: Colors.red.shade50,
+                      color: context.appDanger.withAlpha(25),
                       child: Padding(
                         padding: const EdgeInsets.all(12),
-                        child: Text(budget.error!, style: TextStyle(color: Colors.red.shade700)),
+                        child: Text(budget.error!, style: TextStyle(color: context.appDanger.withAlpha(220))),
                       ),
                     ),
                   if (budget.overview != null) ...[
@@ -129,24 +135,24 @@ class _HomeTab extends StatelessWidget {
                     const SizedBox(height: 12),
                     if (budget.projectedBalance != null)
                       _InfoTile(
-                        icon: Icons.trending_up,
-                        label: 'Projected End Balance',
-                        value: CurrencyFormatter.format(budget.projectedBalance!),
-                        color: Colors.blue,
-                      ),
+                          icon: Icons.trending_up,
+                          label: 'Projected End Balance',
+                          value: CurrencyFormatter.format(budget.projectedBalance!),
+                          color: context.appInfo,
+                        ),
                     const SizedBox(height: 8),
                     _InfoTile(
                       icon: Icons.swap_horiz,
                       label: 'Carried Over',
                       value: CurrencyFormatter.format(budget.overview!.carriedOverFromPrevious),
-                      color: Colors.orange,
+                      color: context.appWarning,
                     ),
                     const SizedBox(height: 8),
                     _InfoTile(
                       icon: Icons.receipt,
                       label: 'Transactions',
                       value: budget.overview!.transactionCount.toString(),
-                      color: Colors.purple,
+                      color: context.appAccent,
                     ),
                   ],
                 ],
@@ -171,12 +177,12 @@ class _HomeTab extends StatelessWidget {
         content: const Text('Are you sure you want to logout?'),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
-          ElevatedButton(
+            ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
               auth.logout();
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            style: ElevatedButton.styleFrom(backgroundColor: context.appDanger),
             child: const Text('Logout', style: TextStyle(color: Colors.white)),
           ),
         ],
@@ -192,7 +198,7 @@ class _BalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.indigo,
+      color: Theme.of(context).colorScheme.primary,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -229,7 +235,7 @@ class _SummaryRow extends StatelessWidget {
             label: 'Income',
             value: CurrencyFormatter.formatCompact(income),
             icon: Icons.arrow_downward,
-            color: Colors.green,
+            color: context.appSuccess,
           ),
         ),
         const SizedBox(width: 12),
@@ -238,7 +244,7 @@ class _SummaryRow extends StatelessWidget {
             label: 'Expense',
             value: CurrencyFormatter.formatCompact(expense),
             icon: Icons.arrow_upward,
-            color: Colors.red,
+            color: context.appDanger,
           ),
         ),
       ],

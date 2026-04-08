@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/report_controller.dart';
 import '../../core/utils/currency_formatter.dart';
+import '../../core/theme.dart';
 
 class ReportScreen extends StatefulWidget {
   final int userId;
@@ -40,7 +41,7 @@ class _ReportScreenState extends State<ReportScreen> with SingleTickerProviderSt
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reports'),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
         actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _load)],
@@ -79,13 +80,13 @@ class _CashFlowTab extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        _InfoCard('Cash Flow Summary', [
+          _InfoCard('Cash Flow Summary', [
           _KV('Opening Balance', CurrencyFormatter.format(cashflow.openingBalance)),
-          _KV('Total Income', CurrencyFormatter.format(cashflow.totalIncome), Colors.green),
-          _KV('Total Expense', CurrencyFormatter.format(cashflow.totalExpense), Colors.red),
+          _KV('Total Income', CurrencyFormatter.format(cashflow.totalIncome), context.appSuccess),
+          _KV('Total Expense', CurrencyFormatter.format(cashflow.totalExpense), context.appDanger),
           _KV('Net Cash Flow', CurrencyFormatter.format(cashflow.netCashFlow),
-              cashflow.netCashFlow >= 0 ? Colors.green : Colors.red),
-          _KV('Closing Balance', CurrencyFormatter.format(cashflow.closingBalance), Colors.indigo),
+              cashflow.netCashFlow >= 0 ? context.appSuccess : context.appDanger),
+          _KV('Closing Balance', CurrencyFormatter.format(cashflow.closingBalance), Theme.of(context).colorScheme.primary),
         ]),
         const SizedBox(height: 12),
         if (cashflow.incomeDetails?.isNotEmpty == true) ...[
@@ -94,8 +95,8 @@ class _CashFlowTab extends StatelessWidget {
           ...cashflow.incomeDetails.map<Widget>(
             (d) => ListTile(
               title: Text(d.transactionTypeName ?? ''),
-              trailing: Text(CurrencyFormatter.format(d.amount),
-                  style: const TextStyle(color: Colors.green)),
+                trailing: Text(CurrencyFormatter.format(d.amount),
+                  style: TextStyle(color: context.appSuccess)),
               dense: true,
             ),
           ),
@@ -116,10 +117,10 @@ class _ComparisonTab extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       children: [
         _InfoCard('Overall Comparison', [
-          _KV('Total Income', CurrencyFormatter.format(comparison.totalIncome), Colors.green),
-          _KV('Total Expense', CurrencyFormatter.format(comparison.totalExpense), Colors.red),
+          _KV('Total Income', CurrencyFormatter.format(comparison.totalIncome), context.appSuccess),
+          _KV('Total Expense', CurrencyFormatter.format(comparison.totalExpense), context.appDanger),
           _KV('Net Amount', CurrencyFormatter.format(comparison.netAmount),
-              comparison.netAmount >= 0 ? Colors.green : Colors.red),
+              comparison.netAmount >= 0 ? context.appSuccess : context.appDanger),
         ]),
         const SizedBox(height: 12),
         if (comparison.monthlyBreakdown?.isNotEmpty == true) ...[
@@ -135,9 +136,9 @@ class _ComparisonTab extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text('↑ ${CurrencyFormatter.formatCompact(m.income)}',
-                        style: const TextStyle(color: Colors.green, fontSize: 12)),
+                      style: TextStyle(color: context.appSuccess, fontSize: 12)),
                     Text('↓ ${CurrencyFormatter.formatCompact(m.expense)}',
-                        style: const TextStyle(color: Colors.red, fontSize: 12)),
+                      style: TextStyle(color: context.appDanger, fontSize: 12)),
                   ],
                 ),
               ),
@@ -160,11 +161,11 @@ class _TrendTab extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       children: [
         _InfoCard('Trend Analysis (${trend.monthsAnalyzed} months)', [
-          _KV('Avg Income', CurrencyFormatter.format(trend.averageIncome), Colors.green),
-          _KV('Avg Expense', CurrencyFormatter.format(trend.averageExpense), Colors.red),
+          _KV('Avg Income', CurrencyFormatter.format(trend.averageIncome), context.appSuccess),
+          _KV('Avg Expense', CurrencyFormatter.format(trend.averageExpense), context.appDanger),
           _KV('Avg Net', CurrencyFormatter.format(trend.averageNetAmount)),
           _KV('Trend Direction', trend.trendDirection ?? 'N/A',
-              trend.trendDirection == 'Up' ? Colors.green : Colors.orange),
+              trend.trendDirection == 'Up' ? context.appSuccess : context.appWarning),
         ]),
         const SizedBox(height: 12),
         if (trend.monthlyTrends?.isNotEmpty == true) ...[
@@ -178,7 +179,7 @@ class _TrendTab extends StatelessWidget {
                 trailing: Text(
                   CurrencyFormatter.formatCompact(t.netAmount),
                   style: TextStyle(
-                    color: t.netAmount >= 0 ? Colors.green : Colors.red,
+                    color: t.netAmount >= 0 ? context.appSuccess : context.appDanger,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

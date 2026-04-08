@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/summary_controller.dart';
 import '../../core/utils/currency_formatter.dart';
+import '../../core/theme.dart';
 
 class SummaryScreen extends StatefulWidget {
   final int userId;
@@ -46,7 +47,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Summary'),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
         actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _load)],
@@ -54,7 +55,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
       body: ctrl.isLoading
           ? const Center(child: CircularProgressIndicator())
           : ctrl.error != null
-              ? Center(child: Text(ctrl.error!, style: const TextStyle(color: Colors.red)))
+              ? Center(child: Text(ctrl.error!, style: TextStyle(color: context.appDanger)))
               : RefreshIndicator(
                   onRefresh: () async => _load(),
                   child: ListView(
@@ -64,9 +65,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
                         Text(
                           'This Month — ${_monthName(widget.month)} ${widget.year}',
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.indigo,
-                              ),
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                         ),
                         const SizedBox(height: 8),
                         _MonthlyCard(ctrl.monthly!),
@@ -77,7 +78,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                           'Year ${widget.year} — All Months',
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.indigo,
+                                color: Theme.of(context).colorScheme.primary,
                               ),
                         ),
                         const SizedBox(height: 8),
@@ -103,12 +104,12 @@ class _MonthlyCard extends StatelessWidget {
         child: Column(
           children: [
             _Row('Starting Balance', CurrencyFormatter.format(summary.startingBalance)),
-            _Row('Total Income', CurrencyFormatter.format(summary.totalIncome), color: Colors.green),
-            _Row('Total Expense', CurrencyFormatter.format(summary.totalExpense), color: Colors.red),
-            _Row('Carried Over', CurrencyFormatter.format(summary.carriedOver), color: Colors.orange),
+            _Row('Total Income', CurrencyFormatter.format(summary.totalIncome), color: context.appSuccess),
+            _Row('Total Expense', CurrencyFormatter.format(summary.totalExpense), color: context.appDanger),
+            _Row('Carried Over', CurrencyFormatter.format(summary.carriedOver), color: context.appWarning),
             const Divider(),
-            _Row('Ending Balance', CurrencyFormatter.format(summary.endingBalance),
-              color: Colors.indigo, bold: true),
+                _Row('Ending Balance', CurrencyFormatter.format(summary.endingBalance),
+                color: Theme.of(context).colorScheme.primary, bold: true),
           ],
         ),
       ),
@@ -133,7 +134,7 @@ class _YearlyTile extends StatelessWidget {
           CurrencyFormatter.formatCompact(net),
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: net >= 0 ? Colors.green : Colors.red,
+            color: net >= 0 ? context.appSuccess : context.appDanger,
           ),
         ),
       ),

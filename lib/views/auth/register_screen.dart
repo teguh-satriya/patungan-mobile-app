@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/auth_controller.dart';
+import '../../core/theme.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -32,15 +33,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (!mounted) return;
     if (ok) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Registration successful! Please login.'),
-          backgroundColor: Colors.green,
+        SnackBar(
+          content: const Text('Registration successful! Please login.'),
+          backgroundColor: context.appSuccess,
         ),
       );
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(auth.error ?? 'Registration failed'), backgroundColor: Colors.red),
+        SnackBar(content: Text(auth.error ?? 'Registration failed'), backgroundColor: context.appDanger),
       );
     }
   }
@@ -49,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthController>();
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Account'), backgroundColor: Colors.indigo),
+      appBar: AppBar(title: const Text('Create Account'), backgroundColor: Theme.of(context).colorScheme.primary),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -100,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onPressed: auth.isLoading ? null : _submit,
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    backgroundColor: Colors.indigo,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Colors.white,
                   ),
                   child: auth.isLoading

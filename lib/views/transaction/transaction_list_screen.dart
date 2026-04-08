@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../core/theme.dart';
 import '../../controllers/transaction_controller.dart';
 import '../../core/utils/currency_formatter.dart';
 import '../../models/transaction/transaction_response.dart';
@@ -56,7 +57,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            style: ElevatedButton.styleFrom(backgroundColor: ctx.appDanger),
             onPressed: () async {
               Navigator.pop(ctx);
               await ctx.read<TransactionController>().delete(id);
@@ -74,7 +75,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Transactions'),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
         actions: [
@@ -83,7 +84,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openForm(),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         child: const Icon(Icons.add, color: Colors.white),
       ),
       body: ctrl.isLoading
@@ -100,11 +101,10 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                     return Card(
                       child: ListTile(
                         leading: CircleAvatar(
-                            backgroundColor:
-                              (isIncome ? Colors.green : Colors.red).withAlpha(25),
+                          backgroundColor: (isIncome ? context.appSuccess : context.appDanger).withAlpha(25),
                           child: Icon(
                             isIncome ? Icons.arrow_downward : Icons.arrow_upward,
-                            color: isIncome ? Colors.green : Colors.red,
+                            color: isIncome ? context.appSuccess : context.appDanger,
                           ),
                         ),
                         title: Text(t.transactionTypeName ?? 'Transaction'),
@@ -116,7 +116,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                           CurrencyFormatter.format(t.amount),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: isIncome ? Colors.green : Colors.red,
+                            color: isIncome ? context.appSuccess : context.appDanger,
                           ),
                         ),
                         onTap: () => _openForm(existing: t),

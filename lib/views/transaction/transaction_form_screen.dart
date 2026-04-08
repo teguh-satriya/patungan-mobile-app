@@ -4,6 +4,7 @@ import '../../controllers/transaction_controller.dart';
 import '../../models/transaction/transaction_response.dart';
 import '../../models/transaction/create_transaction_request.dart';
 import '../../models/transaction/update_transaction_request.dart';
+import '../../core/theme.dart';
 
 class TransactionFormScreen extends StatefulWidget {
   final int userId;
@@ -90,13 +91,13 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(ctrl.successMessage ?? 'Done'),
-          backgroundColor: Colors.green,
+          backgroundColor: context.appSuccess,
         ),
       );
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(ctrl.error ?? 'Error'), backgroundColor: Colors.red),
+        SnackBar(content: Text(ctrl.error ?? 'Error'), backgroundColor: context.appDanger),
       );
     }
   }
@@ -107,7 +108,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_isEditing ? 'Edit Transaction' : 'New Transaction'),
-        backgroundColor: Colors.indigo,
+      backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
@@ -169,7 +170,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                 onPressed: ctrl.isLoading ? null : _submit,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 14),
-                  backgroundColor: Colors.indigo,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   foregroundColor: Colors.white,
                 ),
                 child: ctrl.isLoading
