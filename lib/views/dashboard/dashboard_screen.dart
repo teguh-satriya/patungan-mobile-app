@@ -267,7 +267,7 @@ class _MiniCard extends StatelessWidget {
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: color.withOpacity(0.1),
+              backgroundColor: color.withAlpha(25),
               radius: 20,
               child: Icon(icon, color: color, size: 20),
             ),
@@ -304,7 +304,7 @@ class _InfoTile extends StatelessWidget {
     return Card(
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: color.withOpacity(0.1),
+          backgroundColor: color.withAlpha(25),
           child: Icon(icon, color: color),
         ),
         title: Text(label, style: const TextStyle(fontSize: 14)),

@@ -100,8 +100,8 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                     return Card(
                       child: ListTile(
                         leading: CircleAvatar(
-                          backgroundColor:
-                              (isIncome ? Colors.green : Colors.red).withOpacity(0.1),
+                            backgroundColor:
+                              (isIncome ? Colors.green : Colors.red).withAlpha(25),
                           child: Icon(
                             isIncome ? Icons.arrow_downward : Icons.arrow_upward,
                             color: isIncome ? Colors.green : Colors.red,

@@ -103,12 +103,12 @@ class _MonthlyCard extends StatelessWidget {
         child: Column(
           children: [
             _Row('Starting Balance', CurrencyFormatter.format(summary.startingBalance)),
-            _Row('Total Income', CurrencyFormatter.format(summary.totalIncome), Colors.green),
-            _Row('Total Expense', CurrencyFormatter.format(summary.totalExpense), Colors.red),
-            _Row('Carried Over', CurrencyFormatter.format(summary.carriedOver), Colors.orange),
+            _Row('Total Income', CurrencyFormatter.format(summary.totalIncome), color: Colors.green),
+            _Row('Total Expense', CurrencyFormatter.format(summary.totalExpense), color: Colors.red),
+            _Row('Carried Over', CurrencyFormatter.format(summary.carriedOver), color: Colors.orange),
             const Divider(),
             _Row('Ending Balance', CurrencyFormatter.format(summary.endingBalance),
-                Colors.indigo, bold: true),
+              color: Colors.indigo, bold: true),
           ],
         ),
       ),
@@ -147,7 +147,7 @@ class _Row extends StatelessWidget {
   final Color? color;
   final bool bold;
 
-  const _Row(this.label, this.value, [this.color]);
+  const _Row(this.label, this.value, {this.color, this.bold = false});
 
   @override
   Widget build(BuildContext context) {

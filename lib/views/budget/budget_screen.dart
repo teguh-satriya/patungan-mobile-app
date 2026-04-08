@@ -98,11 +98,11 @@ class _OverviewCard extends StatelessWidget {
         child: Column(
           children: [
             _Row('Starting Balance', CurrencyFormatter.format(overview.startingBalance)),
-            _Row('Total Income', CurrencyFormatter.format(overview.totalIncome), Colors.green),
-            _Row('Total Expense', CurrencyFormatter.format(overview.totalExpense), Colors.red),
+            _Row('Total Income', CurrencyFormatter.format(overview.totalIncome), color: Colors.green),
+            _Row('Total Expense', CurrencyFormatter.format(overview.totalExpense), color: Colors.red),
             const Divider(),
             _Row('Current Balance', CurrencyFormatter.format(overview.currentBalance),
-                Colors.indigo, bold: true),
+              color: Colors.indigo, bold: true),
           ],
         ),
       ),
@@ -116,7 +116,7 @@ class _Row extends StatelessWidget {
   final Color? color;
   final bool bold;
 
-  const _Row(this.label, this.value, [this.color]);
+  const _Row(this.label, this.value, {this.color, this.bold = false});
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +149,7 @@ class _CategoryTile extends StatelessWidget {
     return Card(
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: (isIncome ? Colors.green : Colors.red).withOpacity(0.1),
+          backgroundColor: (isIncome ? Colors.green : Colors.red).withAlpha(25),
           child: Icon(
             isIncome ? Icons.arrow_downward : Icons.arrow_upward,
             color: isIncome ? Colors.green : Colors.red,
@@ -182,7 +182,7 @@ class _CarryoverCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _Row('Total Carried Over', CurrencyFormatter.format(history.totalCarriedOver), Colors.orange),
+            _Row('Total Carried Over', CurrencyFormatter.format(history.totalCarriedOver), color: Colors.orange),
             _Row('Average Carryover', CurrencyFormatter.format(history.averageCarryover)),
           ],
         ),

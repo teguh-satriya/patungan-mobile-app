@@ -27,10 +27,6 @@ class PatunganApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
           useMaterial3: true,
-          cardTheme: CardTheme(
-            elevation: 2,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
         ),
         home: const _AuthGate(),
       ),
@@ -55,10 +51,13 @@ class _AuthGateState extends State<_AuthGate> {
   @override
   Widget build(BuildContext context) {
     final status = context.watch<AuthController>().status;
-    return switch (status) {
-      AuthStatus.unknown => const Scaffold(body: Center(child: CircularProgressIndicator())),
-      AuthStatus.authenticated => const DashboardScreen(),
-      AuthStatus.unauthenticated => const LoginScreen(),
-    };
+    switch (status) {
+      case AuthStatus.unknown:
+        return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      case AuthStatus.authenticated:
+        return const DashboardScreen();
+      case AuthStatus.unauthenticated:
+        return const LoginScreen();
+    }
   }
 }
