@@ -13,11 +13,14 @@ class CreateTransactionRequest {
     this.notes,
   });
 
-  Map<String, dynamic> toJson() => {
-        'userId': userId,
-        'transactionTypeId': transactionTypeId,
-        'date': date,
-        'amount': amount,
-        'notes': notes,
-      };
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{
+      'userId': userId,
+      'transactionTypeId': transactionTypeId,
+      'date': date,
+      'amount': amount,
+    };
+    if (notes != null) map['notes'] = notes;
+    return map;
+  }
 }

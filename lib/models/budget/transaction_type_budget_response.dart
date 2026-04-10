@@ -1,6 +1,7 @@
 class TransactionTypeBudgetResponse {
   final int transactionTypeId;
   final String? transactionTypeName;
+  final String? icon;
   final String? nature;
   final double totalAmount;
   final int transactionCount;
@@ -9,6 +10,7 @@ class TransactionTypeBudgetResponse {
   TransactionTypeBudgetResponse({
     required this.transactionTypeId,
     this.transactionTypeName,
+    this.icon,
     this.nature,
     required this.totalAmount,
     required this.transactionCount,
@@ -19,6 +21,7 @@ class TransactionTypeBudgetResponse {
       TransactionTypeBudgetResponse(
         transactionTypeId: json['transactionTypeId'] ?? 0,
         transactionTypeName: json['transactionTypeName'],
+        icon: json['icon'],
         nature: json['nature'],
         totalAmount: (json['totalAmount'] ?? 0).toDouble(),
         transactionCount: json['transactionCount'] ?? 0,

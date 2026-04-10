@@ -3,6 +3,7 @@ class TransactionResponse {
   final int monthlySummaryId;
   final int transactionTypeId;
   final String? transactionTypeName;
+  final String? transactionTypeIcon;
   final String? transactionNature;
   final DateTime date;
   final double amount;
@@ -15,6 +16,7 @@ class TransactionResponse {
     required this.monthlySummaryId,
     required this.transactionTypeId,
     this.transactionTypeName,
+    this.transactionTypeIcon,
     this.transactionNature,
     required this.date,
     required this.amount,
@@ -29,6 +31,7 @@ class TransactionResponse {
         monthlySummaryId: json['monthlySummaryId'] ?? 0,
         transactionTypeId: json['transactionTypeId'] ?? 0,
         transactionTypeName: json['transactionTypeName'],
+        transactionTypeIcon: json['transactionTypeIcon'],
         transactionNature: json['transactionNature'],
         date: DateTime.parse(json['date'] ?? DateTime.now().toIso8601String()),
         amount: (json['amount'] ?? 0).toDouble(),

@@ -35,6 +35,12 @@ class ApiConstants {
   static String trendAnalysis(int userId) =>
       '/api/Report/trend-analysis/$userId';
 
+  // Transaction Types
+  static const String transactionType = '/api/TransactionType';
+  static String transactionTypeByUser(int userId) =>
+      '/api/TransactionType/user/$userId';
+  static String transactionTypeById(int id) => '/api/TransactionType/$id';
+
   // Transactions
   static const String transaction = '/api/Transaction';
   static String transactionById(int id) => '/api/Transaction/$id';

@@ -6,10 +6,13 @@ class RegistrationRequest {
 
   RegistrationRequest({this.userName, this.email, this.password, this.googleId});
 
-  Map<String, dynamic> toJson() => {
-        'userName': userName,
-        'email': email,
-        'password': password,
-        'googleId': googleId,
-      };
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{
+      'userName': userName,
+      'email': email,
+      'password': password,
+    };
+    if (googleId != null) map['googleId'] = googleId;
+    return map;
+  }
 }

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../core/theme.dart';
 import '../../controllers/transaction_controller.dart';
 import '../../core/utils/currency_formatter.dart';
+import '../../core/utils/icon_map.dart';
 import '../../models/transaction/transaction_response.dart';
 import 'transaction_form_screen.dart';
 
@@ -103,7 +104,9 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                         leading: CircleAvatar(
                           backgroundColor: (isIncome ? context.appSuccess : context.appDanger).withAlpha(25),
                           child: Icon(
-                            isIncome ? Icons.arrow_downward : Icons.arrow_upward,
+                            t.transactionTypeIcon != null
+                                ? iconFromName(t.transactionTypeIcon)
+                                : (isIncome ? Icons.arrow_downward : Icons.arrow_upward),
                             color: isIncome ? context.appSuccess : context.appDanger,
                           ),
                         ),

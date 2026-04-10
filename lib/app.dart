@@ -5,6 +5,7 @@ import 'controllers/budget_controller.dart';
 import 'controllers/summary_controller.dart';
 import 'controllers/report_controller.dart';
 import 'controllers/transaction_controller.dart';
+import 'controllers/transaction_type_controller.dart';
 import 'controllers/theme_controller.dart';
 import 'views/auth/login_screen.dart';
 import 'views/dashboard/dashboard_screen.dart';
@@ -22,6 +23,7 @@ class PatunganApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SummaryController()),
         ChangeNotifierProvider(create: (_) => ReportController()),
         ChangeNotifierProvider(create: (_) => TransactionController()),
+        ChangeNotifierProvider(create: (_) => TransactionTypeController()),
         ChangeNotifierProvider(create: (_) => ThemeController()),
       ],
       child: Builder(builder: (context) {

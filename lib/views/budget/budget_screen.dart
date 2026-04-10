@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/budget_controller.dart';
 import '../../core/utils/currency_formatter.dart';
+import '../../core/utils/icon_map.dart';
 import '../../core/theme.dart';
 
 class BudgetScreen extends StatefulWidget {
@@ -9,7 +10,9 @@ class BudgetScreen extends StatefulWidget {
   final int year;
   final int month;
 
-  const BudgetScreen({super.key, required this.userId, required this.year, required this.month});
+  const BudgetScreen({super.key, required this.userId, required this.year, required this.month, this.showAppBar = true});
+
+  final bool showAppBar;
 
   @override
   State<BudgetScreen> createState() => _BudgetScreenState();
@@ -30,13 +33,15 @@ class _BudgetScreenState extends State<BudgetScreen> {
   Widget build(BuildContext context) {
     final ctrl = context.watch<BudgetController>();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Budget'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _load)],
-      ),
+      appBar: widget.showAppBar
+          ? AppBar(
+              title: const Text('Budget'),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Colors.white,
+              automaticallyImplyLeading: false,
+              actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _load)],
+            )
+          : null,
       body: ctrl.isLoading
           ? const Center(child: CircularProgressIndicator())
             : ctrl.error != null
@@ -99,11 +104,18 @@ class _OverviewCard extends StatelessWidget {
         child: Column(
           children: [
             _Row('Starting Balance', CurrencyFormatter.format(overview.startingBalance)),
+            _Row('Carried Over', CurrencyFormatter.format(overview.carriedOverFromPrevious), color: context.appWarning),
             _Row('Total Income', CurrencyFormatter.format(overview.totalIncome), color: context.appSuccess),
             _Row('Total Expense', CurrencyFormatter.format(overview.totalExpense), color: context.appDanger),
             const Divider(),
-            _Row('Current Balance', CurrencyFormatter.format(overview.currentBalance),
-              color: Theme.of(context).colorScheme.primary, bold: true),
+            _Row(
+              'Current Balance',
+              CurrencyFormatter.format(
+                overview.currentBalance + overview.carriedOverFromPrevious,
+              ),
+              color: Theme.of(context).colorScheme.primary,
+              bold: true,
+            ),
           ],
         ),
       ),
@@ -152,7 +164,9 @@ class _CategoryTile extends StatelessWidget {
         leading: CircleAvatar(
           backgroundColor: (isIncome ? context.appSuccess : context.appDanger).withAlpha(25),
           child: Icon(
-            isIncome ? Icons.arrow_downward : Icons.arrow_upward,
+            type.icon != null
+                ? iconFromName(type.icon)
+                : (isIncome ? Icons.arrow_downward : Icons.arrow_upward),
             color: isIncome ? context.appSuccess : context.appDanger,
             size: 18,
           ),

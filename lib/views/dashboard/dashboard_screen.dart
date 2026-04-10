@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/budget_controller.dart';
 import '../../controllers/transaction_controller.dart';
+import '../../controllers/transaction_type_controller.dart';
 import '../../core/utils/token_storage.dart';
 import '../../core/utils/currency_formatter.dart';
 import '../../core/theme.dart';
 import '../../controllers/theme_controller.dart';
-import '../budget/budget_screen.dart';
 import '../transaction/transaction_list_screen.dart';
-import '../report/report_screen.dart';
-import '../summary/summary_screen.dart';
+import '../analytics/analytics_screen.dart';
+import '../transaction_type/transaction_type_list_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -41,14 +41,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (_userId == 0) return;
     context.read<BudgetController>().loadAll(_userId, _now.year, _now.month);
     context.read<TransactionController>().loadMonthly(_userId, _now.year, _now.month);
+    context.read<TransactionTypeController>().loadByUser(_userId);
   }
 
   List<Widget> get _pages => [
         _HomeTab(userId: _userId, now: _now),
         TransactionListScreen(userId: _userId, year: _now.year, month: _now.month),
-        BudgetScreen(userId: _userId, year: _now.year, month: _now.month),
-        ReportScreen(userId: _userId, year: _now.year, month: _now.month),
-        SummaryScreen(userId: _userId, year: _now.year, month: _now.month),
+        AnalyticsScreen(userId: _userId, year: _now.year, month: _now.month),
+        TransactionTypeListScreen(userId: _userId),
       ];
 
   @override
@@ -61,9 +61,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: 'Home'),
           NavigationDestination(icon: Icon(Icons.receipt_long_outlined), selectedIcon: Icon(Icons.receipt_long), label: 'Transactions'),
-          NavigationDestination(icon: Icon(Icons.pie_chart_outline), selectedIcon: Icon(Icons.pie_chart), label: 'Budget'),
-          NavigationDestination(icon: Icon(Icons.bar_chart_outlined), selectedIcon: Icon(Icons.bar_chart), label: 'Reports'),
-          NavigationDestination(icon: Icon(Icons.calendar_month_outlined), selectedIcon: Icon(Icons.calendar_month), label: 'Summary'),
+          NavigationDestination(icon: Icon(Icons.analytics_outlined), selectedIcon: Icon(Icons.analytics), label: 'Analytics'),
+          NavigationDestination(icon: Icon(Icons.category_outlined), selectedIcon: Icon(Icons.category), label: 'Types'),
         ],
       ),
     );
@@ -207,7 +206,9 @@ class _BalanceCard extends StatelessWidget {
             const Text('Current Balance', style: TextStyle(color: Colors.white70, fontSize: 14)),
             const SizedBox(height: 8),
             Text(
-              CurrencyFormatter.format(overview.currentBalance),
+              CurrencyFormatter.format(
+                overview.currentBalance + overview.carriedOverFromPrevious,
+              ),
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 28,

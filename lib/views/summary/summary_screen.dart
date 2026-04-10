@@ -14,7 +14,10 @@ class SummaryScreen extends StatefulWidget {
     required this.userId,
     required this.year,
     required this.month,
+    this.showAppBar = true,
   });
+
+  final bool showAppBar;
 
   @override
   State<SummaryScreen> createState() => _SummaryScreenState();
@@ -45,13 +48,15 @@ class _SummaryScreenState extends State<SummaryScreen> {
   Widget build(BuildContext context) {
     final ctrl = context.watch<SummaryController>();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Summary'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _load)],
-      ),
+      appBar: widget.showAppBar
+          ? AppBar(
+              title: const Text('Summary'),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Colors.white,
+              automaticallyImplyLeading: false,
+              actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _load)],
+            )
+          : null,
       body: ctrl.isLoading
           ? const Center(child: CircularProgressIndicator())
           : ctrl.error != null

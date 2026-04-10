@@ -9,7 +9,9 @@ class ReportScreen extends StatefulWidget {
   final int year;
   final int month;
 
-  const ReportScreen({super.key, required this.userId, required this.year, required this.month});
+  const ReportScreen({super.key, required this.userId, required this.year, required this.month, this.showAppBar = true});
+
+  final bool showAppBar;
 
   @override
   State<ReportScreen> createState() => _ReportScreenState();
@@ -39,23 +41,35 @@ class _ReportScreenState extends State<ReportScreen> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     final ctrl = context.watch<ReportController>();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Reports'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _load)],
-        bottom: const TabBar(
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white60,
-          indicatorColor: Colors.white,
-          tabs: [
-            Tab(text: 'Cash Flow'),
-            Tab(text: 'Comparison'),
-            Tab(text: 'Trend'),
-          ],
-        ),
-      ),
+      appBar: (widget.showAppBar
+          ? AppBar(
+              title: const Text('Reports'),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Colors.white,
+              automaticallyImplyLeading: false,
+              actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _load)],
+              bottom: TabBar(
+                controller: _tabs,
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.white60,
+                indicatorColor: Colors.white,
+                tabs: const [
+                  Tab(text: 'Cash Flow'),
+                  Tab(text: 'Comparison'),
+                  Tab(text: 'Trend'),
+                ],
+              ),
+            )
+          : TabBar(
+              controller: _tabs,
+              labelColor: Theme.of(context).colorScheme.primary,
+              indicatorColor: Theme.of(context).colorScheme.primary,
+              tabs: const [
+                Tab(text: 'Cash Flow'),
+                Tab(text: 'Comparison'),
+                Tab(text: 'Trend'),
+              ],
+            )) as PreferredSizeWidget,
       body: ctrl.isLoading
           ? const Center(child: CircularProgressIndicator())
           : TabBarView(
