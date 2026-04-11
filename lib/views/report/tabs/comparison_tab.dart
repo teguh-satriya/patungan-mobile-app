@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../controllers/report_controller.dart';
 import '../../../core/utils/currency_formatter.dart';
+import '../../../core/utils/l10n_ext.dart';
 import '../../../core/theme.dart';
 import '../widgets/report_widgets.dart';
 
@@ -38,7 +39,7 @@ class _ComparisonTabState extends State<ComparisonTab> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Select Date Range', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(context.l10n.selectDateRange, style: const TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 12),
                 Row(
                   children: [
@@ -46,7 +47,7 @@ class _ComparisonTabState extends State<ComparisonTab> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('From', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                          Text(context.l10n.from, style: const TextStyle(fontSize: 12, color: Colors.grey)),
                           Row(
                             children: [
                               DropdownButton<int>(
@@ -76,7 +77,7 @@ class _ComparisonTabState extends State<ComparisonTab> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('To', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                          Text(context.l10n.to, style: const TextStyle(fontSize: 12, color: Colors.grey)),
                           Row(
                             children: [
                               DropdownButton<int>(
@@ -112,7 +113,7 @@ class _ComparisonTabState extends State<ComparisonTab> {
                         ? const SizedBox(
                             height: 18, width: 18,
                             child: CircularProgressIndicator(strokeWidth: 2))
-                        : const Text('Show'),
+                        : Text(context.l10n.show),
                   ),
                 ),
               ],
@@ -123,12 +124,12 @@ class _ComparisonTabState extends State<ComparisonTab> {
         if (ctrl.comparisonError != null)
           Center(child: Text(ctrl.comparisonError!, style: const TextStyle(color: Colors.red)))
         else if (comparison == null)
-          const Center(child: Text('Select a date range and tap Show'))
+          Center(child: Text(context.l10n.selectDateRangePrompt))
         else ...[
-          ReportInfoCard('Overall Comparison', [
-            ReportKV('Total Income', CurrencyFormatter.format(comparison.totalIncome), context.appSuccess),
-            ReportKV('Total Expense', CurrencyFormatter.format(comparison.totalExpense), context.appDanger),
-            ReportKV('Net Amount', CurrencyFormatter.format(comparison.netAmount),
+          ReportInfoCard(context.l10n.overallComparison, [
+            ReportKV(context.l10n.totalIncome, CurrencyFormatter.format(comparison.totalIncome), context.appSuccess),
+            ReportKV(context.l10n.totalExpense, CurrencyFormatter.format(comparison.totalExpense), context.appDanger),
+            ReportKV(context.l10n.netAmount, CurrencyFormatter.format(comparison.netAmount),
                 comparison.netAmount >= 0 ? context.appSuccess : context.appDanger),
           ]),
           const SizedBox(height: 12),
@@ -139,8 +140,8 @@ class _ComparisonTabState extends State<ComparisonTab> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Income vs Expense per Month',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                    Text(context.l10n.incomeVsExpensePerMonth,
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                     const SizedBox(height: 16),
                     SizedBox(
                       height: 220,
@@ -221,9 +222,9 @@ class _ComparisonTabState extends State<ComparisonTab> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _Legend(color: context.appSuccess, label: 'Income'),
+                        _Legend(color: context.appSuccess, label: context.l10n.income),
                         const SizedBox(width: 24),
-                        _Legend(color: context.appDanger, label: 'Expense'),
+                        _Legend(color: context.appDanger, label: context.l10n.expense),
                       ],
                     ),
                   ],
@@ -231,13 +232,13 @@ class _ComparisonTabState extends State<ComparisonTab> {
               ),
             ),
             const SizedBox(height: 12),
-            const Text('Monthly Breakdown', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(context.l10n.monthlyBreakdown, style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             ...comparison.monthlyBreakdown!.map<Widget>(
               (m) => Card(
                 child: ListTile(
                   title: Text('${m.month}/${m.year}'),
-                  subtitle: Text('Net: ${CurrencyFormatter.format(m.netAmount)}'),
+                  subtitle: Text('${context.l10n.netAmount}: ${CurrencyFormatter.format(m.netAmount)}'),
                   trailing: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,

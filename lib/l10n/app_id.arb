@@ -1,0 +1,190 @@
+{
+  "@@locale": "id",
+
+  "appName": "Patungan",
+  "tagline": "Kelola keuangan bersama",
+  "cancel": "Batal",
+  "confirm": "Konfirmasi",
+  "delete": "Hapus",
+  "save": "Simpan",
+  "required": "Wajib diisi",
+  "invalidNumber": "Angka tidak valid",
+  "noData": "Tidak ada data",
+  "areYouSure": "Apakah Anda yakin?",
+  "language": "Bahasa",
+
+  "email": "Email",
+  "emailInvalid": "Masukkan email yang valid",
+  "password": "Kata Sandi",
+  "passwordMin": "Min 6 karakter",
+  "username": "Nama Pengguna",
+  "loginButton": "Masuk",
+  "loginFailed": "Login gagal",
+  "noAccount": "Belum punya akun? Daftar",
+  "registerTitle": "Buat Akun",
+  "registerButton": "Daftar",
+  "registerSuccess": "Pendaftaran berhasil! Silakan masuk.",
+  "registerFailed": "Pendaftaran gagal",
+  "logout": "Keluar",
+  "logoutConfirm": "Apakah Anda yakin ingin keluar?",
+
+  "navHome": "Beranda",
+  "navTransactions": "Transaksi",
+  "navAnalytics": "Analitik",
+  "navTypes": "Kategori",
+
+  "welcomeBack": "Selamat datang, {name}!",
+  "@welcomeBack": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "currentBalance": "Saldo Saat Ini",
+  "income": "Pemasukan",
+  "expense": "Pengeluaran",
+  "projectedEndBalance": "Proyeksi Saldo Akhir",
+  "carriedOver": "Saldo Pindahan",
+  "transactions": "Transaksi",
+
+  "summaryTitle": "Ringkasan",
+  "thisMonth": "Bulan Ini — {month} {year}",
+  "@thisMonth": {
+    "placeholders": {
+      "month": { "type": "String" },
+      "year": { "type": "int" }
+    }
+  },
+  "yearAllMonths": "Tahun {year} — Semua Bulan",
+  "@yearAllMonths": {
+    "placeholders": {
+      "year": { "type": "int" }
+    }
+  },
+  "startingBalance": "Saldo Awal",
+  "totalIncome": "Total Pemasukan",
+  "totalExpense": "Total Pengeluaran",
+  "carryOverButton": "Pindahkan ke Bulan Depan",
+  "carryOverTitle": "Pindahkan Saldo",
+  "carryOverContent": "Pindahkan saldo akhir {month} {year} ke bulan depan?",
+  "@carryOverContent": {
+    "placeholders": {
+      "month": { "type": "String" },
+      "year": { "type": "int" }
+    }
+  },
+  "carriedOverSuccess": "Saldo berhasil dipindahkan",
+
+  "budgetTitle": "Anggaran",
+  "overviewHeader": "Ikhtisar – {month}/{year}",
+  "@overviewHeader": {
+    "placeholders": {
+      "month": { "type": "String" },
+      "year": { "type": "int" }
+    }
+  },
+  "spendingByCategory": "Pengeluaran per Kategori",
+
+  "transactionsTitle": "Transaksi",
+  "newTransaction": "Transaksi Baru",
+  "editTransaction": "Edit Transaksi",
+  "deleteTransaction": "Hapus Transaksi",
+  "transactionType": "Jenis Transaksi",
+  "amount": "Jumlah",
+  "date": "Tanggal",
+  "notes": "Catatan",
+  "selectType": "Pilih jenis transaksi terlebih dahulu",
+  "done": "Selesai",
+
+  "typesTitle": "Jenis Transaksi",
+  "newType": "Jenis Baru",
+  "editType": "Edit Jenis",
+  "deleteType": "Hapus Jenis Transaksi",
+  "deleteTypeConfirm": "Hapus \"{name}\"?",
+  "@deleteTypeConfirm": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "thisType": "jenis ini",
+  "noTypesYet": "Belum ada jenis transaksi",
+  "typeDeleted": "Jenis transaksi dihapus",
+
+  "reportsTitle": "Laporan",
+  "tabCashFlow": "Arus Kas",
+  "tabComparison": "Perbandingan",
+  "tabTrend": "Tren",
+  "tabCarryover": "Pindahan",
+
+  "cashFlowSummary": "Ringkasan Arus Kas",
+  "openingBalance": "Saldo Awal",
+  "netCashFlow": "Arus Kas Bersih",
+  "closingBalance": "Saldo Akhir",
+  "incomeBreakdown": "Rincian Pemasukan",
+  "incomeVsExpenseChart": "Pemasukan vs Pengeluaran",
+
+  "selectDateRange": "Pilih Rentang Tanggal",
+  "from": "Dari",
+  "to": "Sampai",
+  "show": "Tampilkan",
+  "selectDateRangePrompt": "Pilih rentang tanggal lalu tap Tampilkan",
+  "overallComparison": "Perbandingan Keseluruhan",
+  "netAmount": "Jumlah Bersih",
+  "monthlyBreakdown": "Rincian Bulanan",
+  "incomeVsExpensePerMonth": "Pemasukan vs Pengeluaran per Bulan",
+
+  "trendAnalysis": "Analisis Tren ({months} bulan)",
+  "@trendAnalysis": {
+    "placeholders": {
+      "months": { "type": "int" }
+    }
+  },
+  "avgIncome": "Rata-rata Pemasukan",
+  "avgExpense": "Rata-rata Pengeluaran",
+  "avgNet": "Rata-rata Bersih",
+  "trendDirection": "Arah Tren",
+  "balanceHistory": "Riwayat Saldo",
+  "monthlyTrends": "Tren Bulanan",
+
+  "notesOptional": "Catatan (opsional)",
+  "name": "Nama",
+  "update": "Perbarui",
+  "descriptionOptional": "Deskripsi (opsional)",
+  "nature": "Jenis",
+  "iconOptional": "Ikon (opsional)",
+  "noTransactionsYet": "Belum ada transaksi",
+  "dateLabel": "Tanggal",
+  "error": "Kesalahan",
+
+  "carryoverSummary": "Ringkasan Pindahan",
+  "totalCarriedOver": "Total Pindahan",
+  "avgCarryover": "Rata-rata Pindahan",
+  "monthlyDetail": "Rincian Bulanan",
+  "startLabel": "Awal",
+  "endLabel": "Akhir",
+
+  "monthJan": "Jan",
+  "monthFeb": "Feb",
+  "monthMar": "Mar",
+  "monthApr": "Apr",
+  "monthMay": "Mei",
+  "monthJun": "Jun",
+  "monthJul": "Jul",
+  "monthAug": "Agu",
+  "monthSep": "Sep",
+  "monthOct": "Okt",
+  "monthNov": "Nov",
+  "monthDec": "Des",
+
+  "monthJanFull": "Januari",
+  "monthFebFull": "Februari",
+  "monthMarFull": "Maret",
+  "monthAprFull": "April",
+  "monthMayFull": "Mei",
+  "monthJunFull": "Juni",
+  "monthJulFull": "Juli",
+  "monthAugFull": "Agustus",
+  "monthSepFull": "September",
+  "monthOctFull": "Oktober",
+  "monthNovFull": "November",
+  "monthDecFull": "Desember"
+}

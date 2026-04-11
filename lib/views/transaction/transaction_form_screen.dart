@@ -7,6 +7,7 @@ import '../../models/transaction/transaction_response.dart';
 import '../../models/transaction/create_transaction_request.dart';
 import '../../models/transaction/update_transaction_request.dart';
 import '../../core/theme.dart';
+import '../../core/utils/l10n_ext.dart';
 
 class TransactionFormScreen extends StatefulWidget {
   final int userId;
@@ -68,7 +69,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     if (_selectedTypeId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Please select a transaction type'),
+      content: Text(context.l10n.selectType),
           backgroundColor: context.appDanger,
         ),
       );
@@ -126,7 +127,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     final typeCtrl = context.watch<TransactionTypeController>();
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? 'Edit Transaction' : 'New Transaction'),
+        title: Text(_isEditing ? context.l10n.editTransaction : context.l10n.newTransaction),
       backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
       ),
@@ -138,11 +139,11 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               typeCtrl.isLoading
-                  ? const InputDecorator(
+                  ? InputDecorator(
                       decoration: InputDecoration(
-                        labelText: 'Transaction Type',
-                        prefixIcon: Icon(Icons.category_outlined),
-                        border: OutlineInputBorder(),
+                        labelText: context.l10n.transactionType,
+                        prefixIcon: const Icon(Icons.category_outlined),
+                        border: const OutlineInputBorder(),
                       ),
                       child: SizedBox(
                         height: 20,
@@ -154,10 +155,10 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                     )
                   : DropdownButtonFormField<int>(
                       initialValue: _selectedTypeId,
-                      decoration: const InputDecoration(
-                        labelText: 'Transaction Type',
-                        prefixIcon: Icon(Icons.category_outlined),
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: context.l10n.transactionType,
+                        prefixIcon: const Icon(Icons.category_outlined),
+                        border: const OutlineInputBorder(),
                       ),
                       items: typeCtrl.types
                           .map(
@@ -168,22 +169,22 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                           )
                           .toList(),
                       onChanged: (v) => setState(() => _selectedTypeId = v),
-                      validator: (v) => v == null ? 'Required' : null,
+                      validator: (v) => v == null ? context.l10n.required : null,
                     ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _amountCtrl,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [_ThousandsSeparatorFormatter()],
-                decoration: const InputDecoration(
-                  labelText: 'Amount',
-                  prefixIcon: Icon(Icons.attach_money),
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: context.l10n.amount,
+                  prefixIcon: const Icon(Icons.attach_money),
+                  border: const OutlineInputBorder(),
                 ),
                 validator: (v) {
-                  if (v == null || v.isEmpty) return 'Required';
+                  if (v == null || v.isEmpty) return context.l10n.required;
                   final raw = v.replaceAll(',', '');
-                  if (double.tryParse(raw) == null) return 'Invalid number';
+                  if (double.tryParse(raw) == null) return context.l10n.invalidNumber;
                   return null;
                 },
               ),
@@ -194,17 +195,17 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                   side: const BorderSide(color: Colors.grey),
                 ),
                 leading: const Icon(Icons.calendar_today),
-                title: Text('Date: ${_selectedDate.toIso8601String().substring(0, 10)}'),
+                title: Text('${context.l10n.dateLabel}: ${_selectedDate.toIso8601String().substring(0, 10)}'),
                 onTap: _pickDate,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _notesCtrl,
                 maxLines: 3,
-                decoration: const InputDecoration(
-                  labelText: 'Notes (optional)',
-                  prefixIcon: Icon(Icons.notes),
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: context.l10n.notesOptional,
+                  prefixIcon: const Icon(Icons.notes),
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 24),
@@ -221,7 +222,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                         width: 20,
                         child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
                       )
-                    : Text(_isEditing ? 'Update' : 'Save',
+                    : Text(_isEditing ? context.l10n.update : context.l10n.save,
                         style: const TextStyle(fontSize: 16)),
               ),
             ],

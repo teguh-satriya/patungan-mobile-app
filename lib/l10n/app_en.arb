@@ -1,0 +1,190 @@
+{
+  "@@locale": "en",
+
+  "appName": "Patungan",
+  "tagline": "Track your finances together",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "delete": "Delete",
+  "save": "Save",
+  "required": "Required",
+  "invalidNumber": "Invalid number",
+  "noData": "No data",
+  "areYouSure": "Are you sure?",
+  "language": "Language",
+
+  "email": "Email",
+  "emailInvalid": "Enter a valid email",
+  "password": "Password",
+  "passwordMin": "Min 6 characters",
+  "username": "Username",
+  "loginButton": "Login",
+  "loginFailed": "Login failed",
+  "noAccount": "Don't have an account? Register",
+  "registerTitle": "Create Account",
+  "registerButton": "Register",
+  "registerSuccess": "Registration successful! Please login.",
+  "registerFailed": "Registration failed",
+  "logout": "Logout",
+  "logoutConfirm": "Are you sure you want to logout?",
+
+  "navHome": "Home",
+  "navTransactions": "Transactions",
+  "navAnalytics": "Analytics",
+  "navTypes": "Types",
+
+  "welcomeBack": "Welcome back, {name}!",
+  "@welcomeBack": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "currentBalance": "Current Balance",
+  "income": "Income",
+  "expense": "Expense",
+  "projectedEndBalance": "Projected End Balance",
+  "carriedOver": "Carried Over",
+  "transactions": "Transactions",
+
+  "summaryTitle": "Summary",
+  "thisMonth": "This Month — {month} {year}",
+  "@thisMonth": {
+    "placeholders": {
+      "month": { "type": "String" },
+      "year": { "type": "int" }
+    }
+  },
+  "yearAllMonths": "Year {year} — All Months",
+  "@yearAllMonths": {
+    "placeholders": {
+      "year": { "type": "int" }
+    }
+  },
+  "startingBalance": "Starting Balance",
+  "totalIncome": "Total Income",
+  "totalExpense": "Total Expense",
+  "carryOverButton": "Carry Over to Next Month",
+  "carryOverTitle": "Carry Over",
+  "carryOverContent": "Carry over the ending balance of {month} {year} to next month?",
+  "@carryOverContent": {
+    "placeholders": {
+      "month": { "type": "String" },
+      "year": { "type": "int" }
+    }
+  },
+  "carriedOverSuccess": "Carried over successfully",
+
+  "budgetTitle": "Budget",
+  "overviewHeader": "Overview – {month}/{year}",
+  "@overviewHeader": {
+    "placeholders": {
+      "month": { "type": "String" },
+      "year": { "type": "int" }
+    }
+  },
+  "spendingByCategory": "Spending by Category",
+
+  "transactionsTitle": "Transactions",
+  "newTransaction": "New Transaction",
+  "editTransaction": "Edit Transaction",
+  "deleteTransaction": "Delete Transaction",
+  "transactionType": "Transaction Type",
+  "amount": "Amount",
+  "date": "Date",
+  "notes": "Notes",
+  "selectType": "Please select a transaction type",
+  "done": "Done",
+
+  "typesTitle": "Transaction Types",
+  "newType": "New Type",
+  "editType": "Edit Type",
+  "deleteType": "Delete Transaction Type",
+  "deleteTypeConfirm": "Delete \"{name}\"?",
+  "@deleteTypeConfirm": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "thisType": "this type",
+  "noTypesYet": "No transaction types yet",
+  "typeDeleted": "Transaction type deleted",
+
+  "reportsTitle": "Reports",
+  "tabCashFlow": "Cash Flow",
+  "tabComparison": "Comparison",
+  "tabTrend": "Trend",
+  "tabCarryover": "Carryover",
+
+  "cashFlowSummary": "Cash Flow Summary",
+  "openingBalance": "Opening Balance",
+  "netCashFlow": "Net Cash Flow",
+  "closingBalance": "Closing Balance",
+  "incomeBreakdown": "Income Breakdown",
+  "incomeVsExpenseChart": "Income vs Expense",
+
+  "selectDateRange": "Select Date Range",
+  "from": "From",
+  "to": "To",
+  "show": "Show",
+  "selectDateRangePrompt": "Select a date range and tap Show",
+  "overallComparison": "Overall Comparison",
+  "netAmount": "Net Amount",
+  "monthlyBreakdown": "Monthly Breakdown",
+  "incomeVsExpensePerMonth": "Income vs Expense per Month",
+
+  "trendAnalysis": "Trend Analysis ({months} months)",
+  "@trendAnalysis": {
+    "placeholders": {
+      "months": { "type": "int" }
+    }
+  },
+  "avgIncome": "Avg Income",
+  "avgExpense": "Avg Expense",
+  "avgNet": "Avg Net",
+  "trendDirection": "Trend Direction",
+  "balanceHistory": "Balance History",
+  "monthlyTrends": "Monthly Trends",
+
+  "notesOptional": "Notes (optional)",
+  "name": "Name",
+  "update": "Update",
+  "descriptionOptional": "Description (optional)",
+  "nature": "Nature",
+  "iconOptional": "Icon (optional)",
+  "noTransactionsYet": "No transactions yet",
+  "dateLabel": "Date",
+  "error": "Error",
+
+  "carryoverSummary": "Carryover Summary",
+  "totalCarriedOver": "Total Carried Over",
+  "avgCarryover": "Average Carryover",
+  "monthlyDetail": "Monthly Detail",
+  "startLabel": "Start",
+  "endLabel": "End",
+
+  "monthJan": "Jan",
+  "monthFeb": "Feb",
+  "monthMar": "Mar",
+  "monthApr": "Apr",
+  "monthMay": "May",
+  "monthJun": "Jun",
+  "monthJul": "Jul",
+  "monthAug": "Aug",
+  "monthSep": "Sep",
+  "monthOct": "Oct",
+  "monthNov": "Nov",
+  "monthDec": "Dec",
+
+  "monthJanFull": "January",
+  "monthFebFull": "February",
+  "monthMarFull": "March",
+  "monthAprFull": "April",
+  "monthMayFull": "May",
+  "monthJunFull": "June",
+  "monthJulFull": "July",
+  "monthAugFull": "August",
+  "monthSepFull": "September",
+  "monthOctFull": "October",
+  "monthNovFull": "November",
+  "monthDecFull": "December"
+}

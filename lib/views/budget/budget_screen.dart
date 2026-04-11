@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../controllers/budget_controller.dart';
 import '../../core/utils/currency_formatter.dart';
 import '../../core/utils/icon_map.dart';
+import '../../core/utils/l10n_ext.dart';
 import '../../core/theme.dart';
 
 class BudgetScreen extends StatefulWidget {
@@ -35,7 +36,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
     return Scaffold(
       appBar: widget.showAppBar
           ? AppBar(
-              title: const Text('Budget'),
+              title: Text(context.l10n.budgetTitle),
               backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
               automaticallyImplyLeading: false,
@@ -52,13 +53,13 @@ class _BudgetScreenState extends State<BudgetScreen> {
                     padding: const EdgeInsets.all(16),
                     children: [
                       if (ctrl.overview != null) ...[
-                        _SectionHeader('Overview – ${widget.month}/${widget.year}'),
+                        _SectionHeader(context.l10n.overviewHeader('${widget.month}', widget.year)),
                         const SizedBox(height: 8),
                         _OverviewCard(ctrl.overview),
                         const SizedBox(height: 16),
                       ],
                       if (ctrl.spendingByType.isNotEmpty) ...[
-                        const _SectionHeader('Spending by Category'),
+                        _SectionHeader(context.l10n.spendingByCategory),
                         const SizedBox(height: 8),
                         ...ctrl.spendingByType.map((t) => _CategoryTile(t)),
                         const SizedBox(height: 16),
@@ -99,12 +100,12 @@ class _OverviewCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _Row('Starting Balance', CurrencyFormatter.format(overview.startingBalance)),
-            _Row('Total Income', CurrencyFormatter.format(overview.totalIncome), color: context.appSuccess),
-            _Row('Total Expense', CurrencyFormatter.format(overview.totalExpense), color: context.appDanger),
+            _Row(context.l10n.startingBalance, CurrencyFormatter.format(overview.startingBalance)),
+            _Row(context.l10n.totalIncome, CurrencyFormatter.format(overview.totalIncome), color: context.appSuccess),
+            _Row(context.l10n.totalExpense, CurrencyFormatter.format(overview.totalExpense), color: context.appDanger),
             const Divider(),
             _Row(
-              'Current Balance',
+              context.l10n.currentBalance,
               CurrencyFormatter.format(overview.currentBalance),
               color: Theme.of(context).colorScheme.primary,
               bold: true,

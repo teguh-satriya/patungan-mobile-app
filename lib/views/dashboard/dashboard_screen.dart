@@ -4,8 +4,10 @@ import '../../controllers/auth_controller.dart';
 import '../../controllers/budget_controller.dart';
 import '../../controllers/transaction_controller.dart';
 import '../../controllers/transaction_type_controller.dart';
+import '../../controllers/language_controller.dart';
 import '../../core/utils/token_storage.dart';
 import '../../core/utils/currency_formatter.dart';
+import '../../core/utils/l10n_ext.dart';
 import '../../core/theme.dart';
 import '../../controllers/theme_controller.dart';
 import '../transaction/transaction_list_screen.dart';
@@ -58,11 +60,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
         onDestinationSelected: (i) => setState(() => _selectedIndex = i),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.receipt_long_outlined), selectedIcon: Icon(Icons.receipt_long), label: 'Transactions'),
-          NavigationDestination(icon: Icon(Icons.analytics_outlined), selectedIcon: Icon(Icons.analytics), label: 'Analytics'),
-          NavigationDestination(icon: Icon(Icons.category_outlined), selectedIcon: Icon(Icons.category), label: 'Types'),
+        destinations: [
+          NavigationDestination(icon: const Icon(Icons.home_outlined), selectedIcon: const Icon(Icons.home), label: context.l10n.navHome),
+          NavigationDestination(icon: const Icon(Icons.receipt_long_outlined), selectedIcon: const Icon(Icons.receipt_long), label: context.l10n.navTransactions),
+          NavigationDestination(icon: const Icon(Icons.analytics_outlined), selectedIcon: const Icon(Icons.analytics), label: context.l10n.navAnalytics),
+          NavigationDestination(icon: const Icon(Icons.category_outlined), selectedIcon: const Icon(Icons.category), label: context.l10n.navTypes),
         ],
       ),
     );
@@ -92,6 +94,11 @@ class _HomeTab extends StatelessWidget {
             onPressed: () => context.read<ThemeController>().toggle(),
           ),
           IconButton(
+            icon: Icon(context.watch<LanguageController>().isIndonesian ? Icons.language : Icons.translate),
+            tooltip: context.l10n.language,
+            onPressed: () => context.read<LanguageController>().toggle(),
+          ),
+          IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () => _confirmLogout(context, auth),
           ),
@@ -107,7 +114,7 @@ class _HomeTab extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 children: [
                   Text(
-                    'Welcome back, ${auth.user?.userName ?? ''}!',
+                    context.l10n.welcomeBack(auth.user?.userName ?? ''),
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 4),
@@ -135,21 +142,21 @@ class _HomeTab extends StatelessWidget {
                     if (budget.projectedBalance != null)
                       _InfoTile(
                           icon: Icons.trending_up,
-                          label: 'Projected End Balance',
-                          value: CurrencyFormatter.format(budget.projectedBalance!),
-                          color: context.appInfo,
-                        ),
+                        label: context.l10n.projectedEndBalance,
+                        value: CurrencyFormatter.format(budget.projectedBalance!),
+                        color: context.appInfo,
+                      ),
                     const SizedBox(height: 8),
                     _InfoTile(
                       icon: Icons.swap_horiz,
-                      label: 'Carried Over',
+                      label: context.l10n.carriedOver,
                       value: CurrencyFormatter.format(budget.overview!.carriedOverFromPrevious),
                       color: context.appWarning,
                     ),
                     const SizedBox(height: 8),
                     _InfoTile(
                       icon: Icons.receipt,
-                      label: 'Transactions',
+                      label: context.l10n.transactions,
                       value: budget.overview!.transactionCount.toString(),
                       color: context.appAccent,
                     ),
@@ -172,17 +179,17 @@ class _HomeTab extends StatelessWidget {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('Logout'),
-        content: const Text('Are you sure you want to logout?'),
+        title: Text(context.l10n.logout),
+        content: Text(context.l10n.logoutConfirm),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.pop(context), child: Text(context.l10n.cancel)),
             ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
               auth.logout();
             },
             style: ElevatedButton.styleFrom(backgroundColor: context.appDanger),
-            child: const Text('Logout', style: TextStyle(color: Colors.white)),
+            child: Text(context.l10n.logout, style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -203,7 +210,7 @@ class _BalanceCard extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            const Text('Current Balance', style: TextStyle(color: Colors.white70, fontSize: 14)),
+            Text(context.l10n.currentBalance, style: const TextStyle(color: Colors.white70, fontSize: 14)),
             const SizedBox(height: 8),
             Text(
               CurrencyFormatter.format(overview.currentBalance),
@@ -231,7 +238,7 @@ class _SummaryRow extends StatelessWidget {
       children: [
         Expanded(
           child: _MiniCard(
-            label: 'Income',
+            label: context.l10n.income,
             value: CurrencyFormatter.formatCompact(income),
             icon: Icons.arrow_downward,
             color: context.appSuccess,
@@ -240,7 +247,7 @@ class _SummaryRow extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: _MiniCard(
-            label: 'Expense',
+            label: context.l10n.expense,
             value: CurrencyFormatter.formatCompact(expense),
             icon: Icons.arrow_upward,
             color: context.appDanger,

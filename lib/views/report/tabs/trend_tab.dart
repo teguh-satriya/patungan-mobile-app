@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../../../core/utils/currency_formatter.dart';
+import '../../../core/utils/l10n_ext.dart';
 import '../../../core/theme.dart';
 import '../widgets/report_widgets.dart';
 
@@ -19,11 +20,11 @@ class TrendTab extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        ReportInfoCard('Trend Analysis (${trend.monthsAnalyzed} months)', [
-          ReportKV('Avg Income', CurrencyFormatter.format(trend.averageIncome), context.appSuccess),
-          ReportKV('Avg Expense', CurrencyFormatter.format(trend.averageExpense), context.appDanger),
-          ReportKV('Avg Net', CurrencyFormatter.format(trend.averageNetAmount)),
-          ReportKV('Trend Direction', trend.trendDirection ?? 'N/A',
+        ReportInfoCard(context.l10n.trendAnalysis(trend.monthsAnalyzed), [
+          ReportKV(context.l10n.avgIncome, CurrencyFormatter.format(trend.averageIncome), context.appSuccess),
+          ReportKV(context.l10n.avgExpense, CurrencyFormatter.format(trend.averageExpense), context.appDanger),
+          ReportKV(context.l10n.avgNet, CurrencyFormatter.format(trend.averageNetAmount)),
+          ReportKV(context.l10n.trendDirection, trend.trendDirection ?? 'N/A',
               trend.trendDirection == 'Up' ? context.appSuccess : context.appWarning),
         ]),
         const SizedBox(height: 12),
@@ -34,8 +35,8 @@ class TrendTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Balance History',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                  Text(context.l10n.balanceHistory,
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                   const SizedBox(height: 16),
                   SizedBox(
                     height: 220,
@@ -102,7 +103,7 @@ class TrendTab extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          const Text('Monthly Trends', style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(context.l10n.monthlyTrends, style: const TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           ...(months as List).map<Widget>(
             (t) => Card(

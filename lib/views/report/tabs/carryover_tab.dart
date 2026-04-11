@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../controllers/report_controller.dart';
 import '../../../core/utils/currency_formatter.dart';
+import '../../../core/utils/l10n_ext.dart';
 import '../../../core/theme.dart';
 import '../../../models/budget/carryover_history_response.dart';
 import '../widgets/report_widgets.dart';
@@ -37,7 +38,7 @@ class _CarryoverTabState extends State<CarryoverTab> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Select Date Range', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(context.l10n.selectDateRange, style: const TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 12),
                 Row(
                   children: [
@@ -45,7 +46,7 @@ class _CarryoverTabState extends State<CarryoverTab> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('From', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                          Text(context.l10n.from, style: const TextStyle(fontSize: 12, color: Colors.grey)),
                           Row(
                             children: [
                               DropdownButton<int>(
@@ -75,7 +76,7 @@ class _CarryoverTabState extends State<CarryoverTab> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('To', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                          Text(context.l10n.to, style: const TextStyle(fontSize: 12, color: Colors.grey)),
                           Row(
                             children: [
                               DropdownButton<int>(
@@ -112,7 +113,7 @@ class _CarryoverTabState extends State<CarryoverTab> {
                             height: 18,
                             width: 18,
                             child: CircularProgressIndicator(strokeWidth: 2))
-                        : const Text('Show'),
+                        : Text(context.l10n.show),
                   ),
                 ),
               ],
@@ -129,13 +130,13 @@ class _CarryoverTabState extends State<CarryoverTab> {
           _CarryoverSummaryCard(ctrl.carryoverHistory!),
           const SizedBox(height: 12),
           if (ctrl.carryoverHistory!.history?.isNotEmpty == true) ...[
-            const Text('Monthly Detail', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(context.l10n.monthlyDetail, style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             ...ctrl.carryoverHistory!.history!.map((item) => Card(
                   child: ListTile(
                     title: Text('${item.month}/${item.year}'),
                     subtitle: Text(
-                        'Start: ${CurrencyFormatter.formatCompact(item.startingBalance)}  →  End: ${CurrencyFormatter.formatCompact(item.endingBalance)}'),
+                        '${context.l10n.startLabel}: ${CurrencyFormatter.formatCompact(item.startingBalance)}  →  ${context.l10n.endLabel}: ${CurrencyFormatter.formatCompact(item.endingBalance)}'),
                     trailing: Text(
                       CurrencyFormatter.format(item.carriedOver),
                       style: TextStyle(color: context.appWarning, fontWeight: FontWeight.bold),
@@ -155,10 +156,10 @@ class _CarryoverSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReportInfoCard('Carryover Summary', [
-      ReportKV('Total Carried Over', CurrencyFormatter.format(history.totalCarriedOver),
+    return ReportInfoCard(context.l10n.carryoverSummary, [
+      ReportKV(context.l10n.totalCarriedOver, CurrencyFormatter.format(history.totalCarriedOver),
           context.appWarning),
-      ReportKV('Average Carryover', CurrencyFormatter.format(history.averageCarryover)),
+      ReportKV(context.l10n.avgCarryover, CurrencyFormatter.format(history.averageCarryover)),
     ]);
   }
 }

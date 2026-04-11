@@ -41,8 +41,8 @@ class ReportController extends ChangeNotifier {
       final tr = _service.getTrendAnalysis(userId);
 
       await Future.wait([
-        cf.then((v) => cashflow = v).catchError((e) { cashflowError = e.toString(); return null; }),
-        tr.then((v) => trend = v).catchError((e) { trendError = e.toString(); return null; }),
+        cf.then<void>((v) { cashflow = v; }).catchError((e) { cashflowError = e.toString(); }),
+        tr.then<void>((v) { trend = v; }).catchError((e) { trendError = e.toString(); }),
       ]);
     } catch (e) {
       error = e.toString();

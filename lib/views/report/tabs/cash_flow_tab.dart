@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../../../core/utils/currency_formatter.dart';
+import '../../../core/utils/l10n_ext.dart';
 import '../../../core/theme.dart';
 import '../widgets/report_widgets.dart';
 
@@ -27,8 +28,8 @@ class CashFlowTab extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  const Text('Income vs Expense',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                  Text(context.l10n.incomeVsExpenseChart,
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                   const SizedBox(height: 16),
                   SizedBox(
                     height: 200,
@@ -61,9 +62,9 @@ class CashFlowTab extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _Legend(color: context.appSuccess, label: 'Income'),
+                      _Legend(color: context.appSuccess, label: context.l10n.income),
                       const SizedBox(width: 24),
-                      _Legend(color: context.appDanger, label: 'Expense'),
+                      _Legend(color: context.appDanger, label: context.l10n.expense),
                     ],
                   ),
                 ],
@@ -72,18 +73,18 @@ class CashFlowTab extends StatelessWidget {
           ),
           const SizedBox(height: 12),
         ],
-        ReportInfoCard('Cash Flow Summary', [
-          ReportKV('Opening Balance', CurrencyFormatter.format(cashflow.openingBalance)),
-          ReportKV('Total Income', CurrencyFormatter.format(cashflow.totalIncome), context.appSuccess),
-          ReportKV('Total Expense', CurrencyFormatter.format(cashflow.totalExpense), context.appDanger),
-          ReportKV('Net Cash Flow', CurrencyFormatter.format(cashflow.netCashFlow),
+        ReportInfoCard(context.l10n.cashFlowSummary, [
+          ReportKV(context.l10n.openingBalance, CurrencyFormatter.format(cashflow.openingBalance)),
+          ReportKV(context.l10n.totalIncome, CurrencyFormatter.format(cashflow.totalIncome), context.appSuccess),
+          ReportKV(context.l10n.totalExpense, CurrencyFormatter.format(cashflow.totalExpense), context.appDanger),
+          ReportKV(context.l10n.netCashFlow, CurrencyFormatter.format(cashflow.netCashFlow),
               cashflow.netCashFlow >= 0 ? context.appSuccess : context.appDanger),
-          ReportKV('Closing Balance', CurrencyFormatter.format(cashflow.closingBalance),
+          ReportKV(context.l10n.closingBalance, CurrencyFormatter.format(cashflow.closingBalance),
               Theme.of(context).colorScheme.primary),
         ]),
         const SizedBox(height: 12),
         if (cashflow.incomeDetails?.isNotEmpty == true) ...[
-          const Text('Income Breakdown', style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(context.l10n.incomeBreakdown, style: const TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           ...cashflow.incomeDetails.map<Widget>(
             (d) => ListTile(

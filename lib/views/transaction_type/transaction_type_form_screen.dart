@@ -6,6 +6,7 @@ import '../../models/transaction_type/create_transaction_type_request.dart';
 import '../../models/transaction_type/update_transaction_type_request.dart';
 import '../../core/theme.dart';
 import '../../core/utils/icon_map.dart';
+import '../../core/utils/l10n_ext.dart';
 import '../../core/constants/transaction_nature.dart';
 
 class TransactionTypeFormScreen extends StatefulWidget {
@@ -124,7 +125,7 @@ class _TransactionTypeFormScreenState
     final ctrl = context.watch<TransactionTypeController>();
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEditing ? 'Edit Type' : 'New Type'),
+        title: Text(_isEditing ? context.l10n.editType : context.l10n.newType),
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
       ),
@@ -137,22 +138,22 @@ class _TransactionTypeFormScreenState
             children: [
               TextFormField(
                 controller: _nameCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  prefixIcon: Icon(Icons.label_outlined),
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: context.l10n.name,
+                  prefixIcon: const Icon(Icons.label_outlined),
+                  border: const OutlineInputBorder(),
                 ),
                 textCapitalization: TextCapitalization.words,
                 validator: (v) =>
-                    v == null || v.trim().isEmpty ? 'Required' : null,
+                    v == null || v.trim().isEmpty ? context.l10n.required : null,
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 initialValue: _selectedNature,
-                decoration: const InputDecoration(
-                  labelText: 'Nature',
-                  prefixIcon: Icon(Icons.swap_vert),
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: context.l10n.nature,
+                  prefixIcon: const Icon(Icons.swap_vert),
+                  border: const OutlineInputBorder(),
                 ),
                 items: TransactionNature.values
                     .map((v) => DropdownMenuItem(
@@ -168,10 +169,10 @@ class _TransactionTypeFormScreenState
               TextFormField(
                 controller: _descriptionCtrl,
                 maxLines: 3,
-                decoration: const InputDecoration(
-                  labelText: 'Description (optional)',
-                  prefixIcon: Icon(Icons.notes),
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: context.l10n.descriptionOptional,
+                  prefixIcon: const Icon(Icons.notes),
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 16),
@@ -180,11 +181,11 @@ class _TransactionTypeFormScreenState
                 onTap: _pickIcon,
                 borderRadius: BorderRadius.circular(4),
                 child: InputDecorator(
-                  decoration: const InputDecoration(
-                    labelText: 'Icon (optional)',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: context.l10n.iconOptional,
+                    border: const OutlineInputBorder(),
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   ),
                   child: Row(
                     children: [
@@ -249,7 +250,7 @@ class _TransactionTypeFormScreenState
                             color: Colors.white, strokeWidth: 2),
                       )
                     : Text(
-                        _isEditing ? 'Update' : 'Save',
+                        _isEditing ? context.l10n.update : context.l10n.save,
                         style: const TextStyle(fontSize: 16),
                       ),
               ),

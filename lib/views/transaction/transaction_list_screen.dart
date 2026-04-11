@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/theme.dart';
+import '../../core/utils/l10n_ext.dart';
 import '../../controllers/transaction_controller.dart';
 import '../../core/utils/currency_formatter.dart';
 import '../../core/utils/icon_map.dart';
@@ -53,17 +54,17 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
     showDialog(
       context: ctx,
       builder: (_) => AlertDialog(
-        title: const Text('Delete Transaction'),
-        content: const Text('Are you sure?'),
+        title: Text(context.l10n.deleteTransaction),
+        content: Text(context.l10n.areYouSure),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.pop(ctx), child: Text(context.l10n.cancel)),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: ctx.appDanger),
             onPressed: () async {
               Navigator.pop(ctx);
               await ctx.read<TransactionController>().delete(id);
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.white)),
+            child: Text(context.l10n.delete, style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -75,7 +76,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
     final ctrl = context.watch<TransactionController>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transactions'),
+        title: Text(context.l10n.transactionsTitle),
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
@@ -91,7 +92,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
       body: ctrl.isLoading
           ? const Center(child: CircularProgressIndicator())
           : ctrl.transactions.isEmpty
-              ? const Center(child: Text('No transactions yet'))
+              ? Center(child: Text(context.l10n.noTransactionsYet))
               : ListView.separated(
                   padding: const EdgeInsets.all(12),
                   itemCount: ctrl.transactions.length,

@@ -4,6 +4,7 @@ import '../../controllers/transaction_type_controller.dart';
 import '../../models/transaction_type/transaction_type_response.dart';
 import '../../core/theme.dart';
 import '../../core/utils/icon_map.dart';
+import '../../core/utils/l10n_ext.dart';
 import '../../core/constants/transaction_nature.dart';
 import 'transaction_type_form_screen.dart';
 
@@ -45,12 +46,12 @@ class _TransactionTypeListScreenState extends State<TransactionTypeListScreen> {
     showDialog(
       context: ctx,
       builder: (_) => AlertDialog(
-        title: const Text('Delete Transaction Type'),
-        content: Text('Delete "${name ?? 'this type'}"?'),
+        title: Text(context.l10n.deleteType),
+        content: Text(context.l10n.deleteTypeConfirm(name ?? context.l10n.thisType)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: ctx.appDanger),
@@ -62,7 +63,7 @@ class _TransactionTypeListScreenState extends State<TransactionTypeListScreen> {
               if (ok) {
                 ScaffoldMessenger.of(ctx).showSnackBar(
                   SnackBar(
-                    content: const Text('Transaction type deleted'),
+                    content: Text(ctx.l10n.typeDeleted),
                     backgroundColor: ctx.appSuccess,
                   ),
                 );
@@ -76,7 +77,7 @@ class _TransactionTypeListScreenState extends State<TransactionTypeListScreen> {
                 );
               }
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.white)),
+            child: Text(context.l10n.delete, style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -88,7 +89,7 @@ class _TransactionTypeListScreenState extends State<TransactionTypeListScreen> {
     final ctrl = context.watch<TransactionTypeController>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transaction Types'),
+        title: Text(context.l10n.typesTitle),
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
@@ -104,7 +105,7 @@ class _TransactionTypeListScreenState extends State<TransactionTypeListScreen> {
       body: ctrl.isLoading
           ? const Center(child: CircularProgressIndicator())
           : ctrl.types.isEmpty
-              ? const Center(child: Text('No transaction types yet'))
+              ? Center(child: Text(context.l10n.noTypesYet))
               : ListView.separated(
                   padding: const EdgeInsets.all(12),
                   itemCount: ctrl.types.length,

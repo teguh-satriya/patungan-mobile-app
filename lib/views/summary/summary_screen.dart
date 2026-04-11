@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/summary_controller.dart';
 import '../../core/utils/currency_formatter.dart';
+import '../../core/utils/l10n_ext.dart';
 import '../../core/theme.dart';
 
 class SummaryScreen extends StatefulWidget {
@@ -41,12 +42,13 @@ class _SummaryScreenState extends State<SummaryScreen> {
     ctrl.loadYearly(widget.userId, _year);
   }
 
-  String _monthName(int m) {
-    const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-    return months[m - 1];
+  String _monthName(BuildContext context, int m) {
+    final l = context.l10n;
+    return [
+      l.monthJan, l.monthFeb, l.monthMar, l.monthApr,
+      l.monthMay, l.monthJun, l.monthJul, l.monthAug,
+      l.monthSep, l.monthOct, l.monthNov, l.monthDec,
+    ][m - 1];
   }
 
   @override
@@ -55,7 +57,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
     return Scaffold(
       appBar: widget.showAppBar
           ? AppBar(
-              title: const Text('Summary'),
+              title: Text(context.l10n.summaryTitle),
               backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
               automaticallyImplyLeading: false,
@@ -98,7 +100,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                 underline: const SizedBox(),
                                 items: List.generate(12, (i) => DropdownMenuItem(
                                     value: i + 1,
-                                    child: Text(_monthName(i + 1)))),
+                                    child: Text(_monthName(context, i + 1)))),
                                 onChanged: (m) {
                                   setState(() => _month = m!);
                                   _load();
@@ -111,7 +113,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                       const SizedBox(height: 8),
                       if (ctrl.monthly != null) ...[
                         Text(
-                          'This Month — ${_monthName(_month)} $_year',
+                          context.l10n.thisMonth(_monthName(context, _month), _year),
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context).colorScheme.primary,
@@ -129,23 +131,23 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                     height: 16,
                                     child: CircularProgressIndicator(strokeWidth: 2))
                                 : const Icon(Icons.arrow_forward),
-                            label: const Text('Carry Over to Next Month'),
+                            label: Text(context.l10n.carryOverButton),
                             onPressed: ctrl.carryoverLoading
                                 ? null
                                 : () async {
                                     final confirm = await showDialog<bool>(
                                       context: context,
                                       builder: (ctx) => AlertDialog(
-                                        title: const Text('Carry Over'),
+                                        title: Text(context.l10n.carryOverTitle),
                                         content: Text(
-                                            'Carry over the ending balance of ${_monthName(_month)} $_year to next month?'),
+                                            context.l10n.carryOverContent(_monthName(context, _month), _year)),
                                         actions: [
                                           TextButton(
                                               onPressed: () => Navigator.pop(ctx, false),
-                                              child: const Text('Cancel')),
+                                              child: Text(context.l10n.cancel)),
                                           ElevatedButton(
                                               onPressed: () => Navigator.pop(ctx, true),
-                                              child: const Text('Confirm')),
+                                              child: Text(context.l10n.confirm)),
                                         ],
                                       ),
                                     );
@@ -155,8 +157,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                     if (!mounted) return;
                                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                       content: Text(ok
-                                          ? 'Carried over successfully'
-                                          : (context.read<SummaryController>().carryoverError ?? 'Failed')),
+                                        ? context.l10n.carriedOverSuccess
+                                        : (context.read<SummaryController>().carryoverError ?? 'Failed')),
                                       backgroundColor: ok ? context.appSuccess : context.appDanger,
                                     ));
                                   },
@@ -171,14 +173,14 @@ class _SummaryScreenState extends State<SummaryScreen> {
                       ],
                       if (ctrl.yearly.isNotEmpty) ...[
                         Text(
-                          'Year $_year — All Months',
+                          context.l10n.yearAllMonths(_year),
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                         ),
                         const SizedBox(height: 8),
-                        ...ctrl.yearly.map((s) => _YearlyTile(s, _monthName(s.month))),
+                        ...ctrl.yearly.map((s) => _YearlyTile(s, _monthName(context, s.month))),
                       ],
                     ],
                   ),
@@ -199,11 +201,11 @@ class _MonthlyCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _Row('Starting Balance', CurrencyFormatter.format(summary.startingBalance)),
-            _Row('Total Income', CurrencyFormatter.format(summary.totalIncome), color: context.appSuccess),
-            _Row('Total Expense', CurrencyFormatter.format(summary.totalExpense), color: context.appDanger),
+            _Row(context.l10n.startingBalance, CurrencyFormatter.format(summary.startingBalance)),
+            _Row(context.l10n.totalIncome, CurrencyFormatter.format(summary.totalIncome), color: context.appSuccess),
+            _Row(context.l10n.totalExpense, CurrencyFormatter.format(summary.totalExpense), color: context.appDanger),
             const Divider(),
-            _Row('Current Balance',
+            _Row(context.l10n.currentBalance,
                 CurrencyFormatter.format(summary.startingBalance + summary.totalIncome - summary.totalExpense),
                 color: Theme.of(context).colorScheme.primary, bold: true),
           ],
@@ -225,7 +227,7 @@ class _YearlyTile extends StatelessWidget {
       child: ListTile(
         title: Text(monthName, style: const TextStyle(fontWeight: FontWeight.w600)),
         subtitle: Text(
-            'In: ${CurrencyFormatter.formatCompact(summary.totalIncome)} | Out: ${CurrencyFormatter.formatCompact(summary.totalExpense)}'),
+            '${context.l10n.income}: ${CurrencyFormatter.formatCompact(summary.totalIncome)} | ${context.l10n.expense}: ${CurrencyFormatter.formatCompact(summary.totalExpense)}'),
         trailing: Text(
           CurrencyFormatter.formatCompact(net),
           style: TextStyle(

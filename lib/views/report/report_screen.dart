@@ -1,7 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/report_controller.dart';
-import '../../core/theme.dart';
+import '../../core/utils/l10n_ext.dart';
 import 'tabs/cash_flow_tab.dart';
 import 'tabs/comparison_tab.dart';
 import 'tabs/trend_tab.dart';
@@ -48,17 +48,17 @@ class _ReportScreenState extends State<ReportScreen> with SingleTickerProviderSt
       labelColor: widget.showAppBar ? Colors.white : Theme.of(context).colorScheme.primary,
       unselectedLabelColor: widget.showAppBar ? Colors.white60 : null,
       indicatorColor: widget.showAppBar ? Colors.white : Theme.of(context).colorScheme.primary,
-      tabs: const [
-        Tab(text: 'Cash Flow'),
-        Tab(text: 'Comparison'),
-        Tab(text: 'Trend'),
-        Tab(text: 'Carryover'),
+      tabs: [
+        Tab(text: context.l10n.tabCashFlow),
+        Tab(text: context.l10n.tabComparison),
+        Tab(text: context.l10n.tabTrend),
+        Tab(text: context.l10n.tabCarryover),
       ],
     );
     return Scaffold(
       appBar: widget.showAppBar
           ? AppBar(
-              title: const Text('Reports'),
+              title: Text(context.l10n.reportsTitle),
               backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
               automaticallyImplyLeading: false,
