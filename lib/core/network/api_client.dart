@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../utils/token_storage.dart';
 import '../constants/api_constants.dart';
 
@@ -11,9 +12,11 @@ class ApiClient {
   ApiClient({http.Client? client}) : _client = client ?? _createClient();
 
   static http.Client _createClient() {
-    final httpClient = HttpClient()
-      ..badCertificateCallback =
+    final httpClient = HttpClient();
+    if (dotenv.env['DEVELOPMENT_MODE'] == 'true') {
+      httpClient.badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
+    }
     return IOClient(httpClient);
   }
 
@@ -114,7 +117,6 @@ class ApiClient {
       return jsonDecode(res.body);
     }
 
-    // Try to extract a human-readable message from common API error shapes
     String message;
     try {
       final decoded = jsonDecode(res.body) as Map<String, dynamic>;

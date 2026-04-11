@@ -11,10 +11,13 @@ class UpdateTransactionRequest {
     this.notes,
   });
 
-  Map<String, dynamic> toJson() => {
-        'transactionTypeId': transactionTypeId,
-        'date': date,
-        'amount': amount,
-        'notes': notes,
-      };
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{
+      'transactionTypeId': transactionTypeId,
+      'date': date,
+      'amount': amount,
+    };
+    if (notes != null) map['notes'] = notes;
+    return map;
+  }
 }

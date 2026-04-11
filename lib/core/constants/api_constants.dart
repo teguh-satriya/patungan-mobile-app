@@ -1,5 +1,13 @@
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class ApiConstants {
-  static const String baseUrl = 'https://10.0.2.2:7200';
+    static String get baseUrl {
+        final isDev = dotenv.env['DEVELOPMENT_MODE'] == 'true';
+        return isDev
+                ? dotenv.env['API_BASE_URL'] ?? ''
+                : dotenv.env['API_BASE_URL_PROD'] ?? '';
+    }
 
   // Auth
   static const String register = '/api/Auth/register';
@@ -14,8 +22,9 @@ class ApiConstants {
       '/api/Budget/spending-by-type/$userId/$year/$month';
   static String projectedBalance(int userId, int year, int month) =>
       '/api/Budget/projected-balance/$userId/$year/$month';
-  static String carryoverHistory(int userId) =>
-      '/api/Budget/carryover-history/$userId';
+  static String carryoverHistory(
+          int userId, int fromYear, int fromMonth, int toYear, int toMonth) =>
+      '/api/Budget/carryover-history/$userId?fromYear=$fromYear&fromMonth=$fromMonth&toYear=$toYear&toMonth=$toMonth';
 
   // Monthly Summary
   static String monthlySummary(int userId, int year, int month) =>
@@ -30,8 +39,9 @@ class ApiConstants {
   // Reports
   static String cashflow(int userId, int year, int month) =>
       '/api/Report/cashflow/$userId/$year/$month';
-  static String incomeExpenseComparison(int userId) =>
-      '/api/Report/income-expense-comparison/$userId';
+  static String incomeExpenseComparison(
+          int userId, int startYear, int startMonth, int endYear, int endMonth) =>
+      '/api/Report/income-expense-comparison/$userId?startYear=$startYear&startMonth=$startMonth&endYear=$endYear&endMonth=$endMonth';
   static String trendAnalysis(int userId) =>
       '/api/Report/trend-analysis/$userId';
 

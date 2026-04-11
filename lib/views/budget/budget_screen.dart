@@ -63,11 +63,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
                         ...ctrl.spendingByType.map((t) => _CategoryTile(t)),
                         const SizedBox(height: 16),
                       ],
-                      if (ctrl.carryoverHistory != null) ...[
-                        const _SectionHeader('Carryover History'),
-                        const SizedBox(height: 8),
-                        _CarryoverCard(ctrl.carryoverHistory!),
-                      ],
+
                     ],
                   ),
                 ),
@@ -104,15 +100,12 @@ class _OverviewCard extends StatelessWidget {
         child: Column(
           children: [
             _Row('Starting Balance', CurrencyFormatter.format(overview.startingBalance)),
-            _Row('Carried Over', CurrencyFormatter.format(overview.carriedOverFromPrevious), color: context.appWarning),
             _Row('Total Income', CurrencyFormatter.format(overview.totalIncome), color: context.appSuccess),
             _Row('Total Expense', CurrencyFormatter.format(overview.totalExpense), color: context.appDanger),
             const Divider(),
             _Row(
               'Current Balance',
-              CurrencyFormatter.format(
-                overview.currentBalance + overview.carriedOverFromPrevious,
-              ),
+              CurrencyFormatter.format(overview.currentBalance),
               color: Theme.of(context).colorScheme.primary,
               bold: true,
             ),
@@ -185,23 +178,4 @@ class _CategoryTile extends StatelessWidget {
   }
 }
 
-class _CarryoverCard extends StatelessWidget {
-  final dynamic history;
-  const _CarryoverCard(this.history);
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            _Row('Total Carried Over', CurrencyFormatter.format(history.totalCarriedOver), color: context.appWarning),
-            _Row('Average Carryover', CurrencyFormatter.format(history.averageCarryover)),
-          ],
-        ),
-      ),
-    );
-  }
-}

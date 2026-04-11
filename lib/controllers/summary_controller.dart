@@ -12,6 +12,9 @@ class SummaryController extends ChangeNotifier {
   bool isLoading = false;
   String? error;
 
+  bool carryoverLoading = false;
+  String? carryoverError;
+
   Future<void> loadMonthly(int userId, int year, int month) async {
     isLoading = true;
     error = null;
@@ -37,6 +40,23 @@ class SummaryController extends ChangeNotifier {
     } finally {
       isLoading = false;
       notifyListeners();
+    }
+  }
+
+  Future<bool> carryover(int userId, int year, int month) async {
+    carryoverLoading = true;
+    carryoverError = null;
+    notifyListeners();
+    try {
+      await _service.carryover(userId, year, month);
+      carryoverLoading = false;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      carryoverError = e.toString();
+      carryoverLoading = false;
+      notifyListeners();
+      return false;
     }
   }
 }

@@ -206,9 +206,7 @@ class _BalanceCard extends StatelessWidget {
             const Text('Current Balance', style: TextStyle(color: Colors.white70, fontSize: 14)),
             const SizedBox(height: 8),
             Text(
-              CurrencyFormatter.format(
-                overview.currentBalance + overview.carriedOverFromPrevious,
-              ),
+              CurrencyFormatter.format(overview.currentBalance),
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 28,

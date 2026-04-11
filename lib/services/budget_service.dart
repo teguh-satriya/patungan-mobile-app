@@ -27,7 +27,13 @@ class BudgetService {
   }
 
   Future<CarryoverHistoryResponse> getCarryoverHistory(int userId) async {
-    final res = await _client.get(ApiConstants.carryoverHistory(userId));
+    final now = DateTime.now();
+    final fromYear = now.year - 1;
+    const fromMonth = 1;
+    final toYear = now.year;
+    final toMonth = now.month;
+    final res = await _client.get(
+        ApiConstants.carryoverHistory(userId, fromYear, fromMonth, toYear, toMonth));
     return CarryoverHistoryResponse.fromJson(res['data']);
   }
 }
